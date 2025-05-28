@@ -1,20 +1,18 @@
-import { initializeApp } from "firebase/app";
+// lib/firebase.ts
+import { initializeApp, getApps } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getStorage, connectStorageEmulator } from "firebase/storage"; // still ok
+import { getStorage } from "firebase/storage";
 
-
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyARAtY4uxL2sBmc5g2pDuHYwRr8alCwbYY",
-  authDomain: "brain-beats-2e4e9.firebaseapp.com",
-  projectId: "brain-beats-2e4e9",
-  storageBucket: "brain-beats-2e4e9.firebasestorage.app",
-  messagingSenderId: "713952134954",
-  appId: "1:713952134954:web:2389670c413c3dc0378053",
-  measurementId: "G-M0QXKF9M1N"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!
 };
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 export const storage = getStorage(app);
