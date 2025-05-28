@@ -14,6 +14,9 @@ const firebaseConfig = {
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Update this to your actual parent doc ID
+const parentDocId = "defaultSongs"; // or "brain1" or "main", etc.
+
 interface Song {
   id: string;
   title: string;
@@ -25,7 +28,8 @@ interface Song {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const snapshot = await getDocs(collection(db, "songs"));
+  const subcollectionRef = collection(db, "songs", parentDocId, "files");
+  const snapshot = await getDocs(subcollectionRef);
   const songs: Song[] = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
